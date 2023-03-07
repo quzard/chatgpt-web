@@ -22,6 +22,7 @@ router.post('/chat-process', async (req, res) => {
     const { prompt, options = {} } = req.body as { prompt: string; options?: ChatContext }
     let firstChunk = true
     await chatReplyProcess(prompt, options, (chat: ChatMessage) => {
+      chat.role = 'user'
       res.write(firstChunk ? JSON.stringify(chat) : `\n${JSON.stringify(chat)}`)
       firstChunk = false
     })

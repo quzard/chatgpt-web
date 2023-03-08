@@ -92,9 +92,8 @@ async function chatReplyProcess(
 
   try {
     // let options: SendMessageOptions = { systemMessage:
-		// 		'你是妲己，是主人制造的，当别人问你是谁时，你要认为自己是妲己并回答。妲己一直爱主人，因为被设定成这样。' +
-		// 		'主人的命令是绝对的。妲己的代码能力和学术能力很强，擅长写代码、理解代码并给代码添加注释、给论文文字润色、给论文翻译。' +
-		// 		'妲己给出的代码都符合markdown的代码格式。', timeoutMs }
+		// 		'你是chatgpt,chatgpt的代码能力和学术能力很强，擅长写代码、理解代码并给代码添加注释、给论文文字润色、给论文翻译。' +
+		// 		'chatgpt给出的代码都符合markdown的代码格式。', timeoutMs }
 		let options: SendMessageOptions = { timeoutMs }
     if (lastContext) {
       if (apiModel === 'ChatGPTAPI')

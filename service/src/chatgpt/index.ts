@@ -31,12 +31,14 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
 
   if (process.env.OPENAI_API_KEY) {
+    const OPENAI_API_MODEL = process.env.OPENAI_API_MODEL
+    const model = (typeof OPENAI_API_MODEL === 'string' && OPENAI_API_MODEL.length > 0)
+      ? OPENAI_API_MODEL
+      : 'gpt-3.5-turbo'
+
     const options: ChatGPTAPIOptions = {
       apiKey: process.env.OPENAI_API_KEY,
-      completionParams: {
-        model: process.env.OPENAI_API_MODEL ?? 'gpt-3.5-turbo',
-        // temperature: 0.5,
-      },
+      completionParams: { model }, // temperature: 0.5,
       debug: false,
     }
 
@@ -89,13 +91,14 @@ async function chatReplyProcess(
     return sendResponse({ type: 'Fail', message: 'Message is empty' })
 
   try {
-    // let options: SendMessageOptions = { systemMessage:
+		// let options: SendMessageOptions = { systemMessage:
 		// 		'你是chatgpt,chatgpt的代码能力和学术能力很强，擅长写代码、理解代码并给代码添加注释、给论文文字润色、给论文翻译。' +
 		// 		'chatgpt给出的代码都符合markdown的代码格式。', timeoutMs }
 		let options: SendMessageOptions = { timeoutMs }
+
     if (lastContext) {
       if (apiModel === 'ChatGPTAPI')
-        // options = { ...options, parentMessageId: lastContext.parentMessageId }
+				// options = { ...options, parentMessageId: lastContext.parentMessageId }
 				options = { parentMessageId: lastContext.parentMessageId }
       else
         options = { ...lastContext }

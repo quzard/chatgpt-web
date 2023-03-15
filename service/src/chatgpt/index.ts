@@ -71,6 +71,7 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
     const options: ChatGPTUnofficialProxyAPIOptions = {
       accessToken: process.env.OPENAI_ACCESS_TOKEN,
       debug: false,
+      model: "gpt-4",
     }
 
     if (process.env.SOCKS_PROXY_HOST && process.env.SOCKS_PROXY_PORT) {

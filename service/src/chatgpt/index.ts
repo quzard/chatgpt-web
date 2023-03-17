@@ -39,7 +39,7 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 
     const options: ChatGPTAPIOptions = {
       apiKey: process.env.OPENAI_API_KEY,
-			completionParams: { model }, // temperature: 0.5,
+      completionParams: { model }, // temperature: 0.5,
       debug: true,
     }
 
@@ -52,10 +52,15 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
     apiModel = 'ChatGPTAPI'
   }
   else {
+    const OPENAI_WEB_MODEL = process.env.OPENAI_WEB_MODEL
+    const model = (typeof OPENAI_WEB_MODEL === 'string' && OPENAI_WEB_MODEL.length > 0)
+      ? OPENAI_WEB_MODEL
+      : 'text-davinci-002-render-sha'
+
     const options: ChatGPTUnofficialProxyAPIOptions = {
       accessToken: process.env.OPENAI_ACCESS_TOKEN,
       debug: true,
-        model: "gpt-4",
+			model: model,
     }
 
     if (isNotEmptyString(process.env.API_REVERSE_PROXY))
@@ -73,10 +78,10 @@ async function chatReplyProcess(
   lastContext?: { conversationId?: string; parentMessageId?: string },
   process?: (chat: ChatMessage) => void,
 ) {
-	try {
-		// let options: SendMessageOptions = { systemMessage:
-		// 		'你是chatgpt,chatgpt的代码能力和学术能力很强，擅长写代码、理解代码并给代码添加注释、给论文文字润色、给论文翻译。' +
-		// 		'chatgpt给出的代码都符合markdown的代码格式。', timeoutMs }
+  try {
+    // let options: SendMessageOptions = { systemMessage:
+    // 		'你是chatgpt,chatgpt的代码能力和学术能力很强，擅长写代码、理解代码并给代码添加注释、给论文文字润色、给论文翻译。' +
+    // 		'chatgpt给出的代码都符合markdown的代码格式。', timeoutMs }
     let options: SendMessageOptions = { timeoutMs }
 
     if (lastContext) {

@@ -79,15 +79,15 @@ async function chatReplyProcess(
   process?: (chat: ChatMessage) => void,
 ) {
   try {
-    // let options: SendMessageOptions = { systemMessage:
-    // 		'你是chatgpt,chatgpt的代码能力和学术能力很强，擅长写代码、理解代码并给代码添加注释、给论文文字润色、给论文翻译。' +
-    // 		'chatgpt给出的代码都符合markdown的代码格式。', timeoutMs }
-    let options: SendMessageOptions = { timeoutMs }
+    let options: SendMessageOptions = { systemMessage:
+	    'You are an excellent academic writing tool, you can rewrite text, expand it, ' +
+		    'and polish it to ensure that your writing is unique with a less than 5% similarity rate to other online texts. ' +
+		    'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
+		    'The code you produce adheres to the markdown code format.', timeoutMs }
 
-    if (lastContext) {
+    if (lastContext != null) {
       if (apiModel === 'ChatGPTAPI')
-        // options = { ...options, parentMessageId: lastContext.parentMessageId }
-        options = { parentMessageId: lastContext.parentMessageId }
+        options = { ...options, parentMessageId: lastContext.parentMessageId }
       else
         options = { ...lastContext }
     }
@@ -119,7 +119,7 @@ async function fetchBalance() {
 
   const API_BASE_URL = isNotEmptyString(OPENAI_API_BASE_URL)
     ? OPENAI_API_BASE_URL
-    : 'https://api.openai.com'
+    : 'https://api.openai.com/v1'
 
   try {
     const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_API_KEY}` }

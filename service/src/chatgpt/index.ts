@@ -83,13 +83,13 @@ async function chatReplyProcess(
     let options: SendMessageOptions = { timeoutMs }
 
 		if (apiModel === 'ChatGPTAPI'){
-			if (systemMessage == null || systemMessage.length == 0){
-				options.systemMessage = 'You are an excellent academic writing tool, you can rewrite text, expand it, ' +
-				'and polish it to ensure that your writing is unique with a less than 5% similarity rate to other online texts. ' +
-				'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
-				'The code you produce adheres to the markdown code format.'
-			} else {
+			if (systemMessage != null && systemMessage.length > 0){
 				options.systemMessage = systemMessage
+			} else {
+				options.systemMessage = 'You are an excellent academic writing tool, you can rewrite text, expand it, ' +
+					'and polish it to ensure that your writing is unique with a less than 5% similarity rate to other online texts. ' +
+					'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
+					'The code you produce adheres to the markdown code format.'
 			}
 		}
 

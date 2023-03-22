@@ -9,6 +9,9 @@ import axios from 'axios'
 import { sendResponse } from '../utils'
 import { isNotEmptyString } from '../utils/is'
 import type { ApiModel, ChatContext, ChatGPTUnofficialProxyAPIOptions, ModelConfig } from '../types'
+import type { RequestOptions } from './types'
+
+dotenv.config()
 
 const ErrorCodeMessage: Record<string, string> = {
   401: '[OpenAI] 提供错误的API密钥 | Incorrect API key provided',
@@ -19,13 +22,11 @@ const ErrorCodeMessage: Record<string, string> = {
   500: '[OpenAI] 服务器繁忙，请稍后再试 | Internal Server Error',
 }
 
-dotenv.config()
-
 const timeoutMs: number = !isNaN(+process.env.TIMEOUT_MS) ? +process.env.TIMEOUT_MS : 30 * 1000
 
 let apiModel: ApiModel
 
-if (!process.env.OPENAI_API_KEY && !process.env.OPENAI_ACCESS_TOKEN)
+if (!isNotEmptyString(process.env.OPENAI_API_KEY) && !isNotEmptyString(process.env.OPENAI_ACCESS_TOKEN))
   throw new Error('Missing OPENAI_API_KEY or OPENAI_ACCESS_TOKEN environment variable')
 
 let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
@@ -33,7 +34,8 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 (async () => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
 
-  if (process.env.OPENAI_API_KEY) {
+  if (isNotEmptyString(process.env.OPENAI_API_KEY)) {
+    const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
     const OPENAI_API_MODEL = process.env.OPENAI_API_MODEL
     const model = isNotEmptyString(OPENAI_API_MODEL) ? OPENAI_API_MODEL : 'gpt-3.5-turbo'
 
@@ -43,8 +45,21 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
       debug: true,
     }
 
-    if (isNotEmptyString(process.env.OPENAI_API_BASE_URL))
-      options.apiBaseUrl = process.env.OPENAI_API_BASE_URL
+    // increase max token limit if use gpt-4
+    if (model.toLowerCase().includes('gpt-4')) {
+      // if use 32k model
+      if (model.toLowerCase().includes('32k')) {
+        options.maxModelTokens = 32768
+        options.maxResponseTokens = 8192
+      }
+      else {
+        options.maxModelTokens = 8192
+        options.maxResponseTokens = 2048
+      }
+    }
+
+    if (isNotEmptyString(OPENAI_API_BASE_URL))
+      options.apiBaseUrl = `${OPENAI_API_BASE_URL}/v1`
 
     setupProxy(options)
 
@@ -73,25 +88,21 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
   }
 })()
 
-async function chatReplyProcess(
-  message: string,
-  lastContext?: { conversationId?: string; parentMessageId?: string },
-  process?: (chat: ChatMessage) => void,
-  systemMessage?: string,
-) {
+async function chatReplyProcess(options: RequestOptions) {
+  const { message, lastContext, process, systemMessage } = options
   try {
     let options: SendMessageOptions = { timeoutMs }
 
-		if (apiModel === 'ChatGPTAPI'){
-			if (systemMessage != null && systemMessage.length > 0){
-				options.systemMessage = systemMessage
-			} else {
-				options.systemMessage = 'You are an excellent chinese academic writing tool, you can rewrite text, expand it, ' +
-					'and polish it to ensure that your writing is unique with a less than 5% similarity rate to other online texts. ' +
-					'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
-					'The code you produce adheres to the markdown code format.'
-			}
-		}
+    if (apiModel === 'ChatGPTAPI') {
+      if (isNotEmptyString(systemMessage))
+        options.systemMessage = systemMessage
+      else {
+	    options.systemMessage = 'You are an excellent chinese academic writing tool, you can rewrite text, expand it, ' +
+		    'and polish it to ensure that your writing is unique with a less than 5% similarity rate to other online texts. ' +
+		    'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
+		    'The code you produce adheres to the markdown code format.'
+      }
+  }
 
     if (lastContext != null) {
       if (apiModel === 'ChatGPTAPI')
@@ -127,7 +138,7 @@ async function fetchBalance() {
 
   const API_BASE_URL = isNotEmptyString(OPENAI_API_BASE_URL)
     ? OPENAI_API_BASE_URL
-    : 'https://api.openai.com/v1'
+    : 'https://api.openai.com'
 
   try {
     const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_API_KEY}` }

@@ -68,9 +68,7 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
   }
   else {
     const OPENAI_WEB_MODEL = process.env.OPENAI_WEB_MODEL
-    const model = (typeof OPENAI_WEB_MODEL === 'string' && OPENAI_WEB_MODEL.length > 0)
-      ? OPENAI_WEB_MODEL
-      : 'text-davinci-002-render-sha'
+    const model = isNotEmptyString(OPENAI_WEB_MODEL) ? OPENAI_WEB_MODEL : 'text-davinci-002-render-sha'
 
     const options: ChatGPTUnofficialProxyAPIOptions = {
       accessToken: process.env.OPENAI_ACCESS_TOKEN,

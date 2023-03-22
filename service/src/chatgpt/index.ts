@@ -77,17 +77,25 @@ async function chatReplyProcess(
   message: string,
   lastContext?: { conversationId?: string; parentMessageId?: string },
   process?: (chat: ChatMessage) => void,
+  systemMessage?: string,
 ) {
   try {
-    let options: SendMessageOptions = { systemMessage:
-	    'You are an excellent academic writing tool, you can rewrite text, expand it, ' +
-		    'and polish it to ensure that your writing is unique with a less than 5% similarity rate to other online texts. ' +
-		    'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
-		    'The code you produce adheres to the markdown code format.', timeoutMs }
+    let options: SendMessageOptions = { timeoutMs }
+
+		if (apiModel === 'ChatGPTAPI'){
+			if (systemMessage == null || systemMessage.length == 0){
+				options.systemMessage = 'You are an excellent academic writing tool, you can rewrite text, expand it, ' +
+				'and polish it to ensure that your writing is unique with a less than 5% similarity rate to other online texts. ' +
+				'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
+				'The code you produce adheres to the markdown code format.'
+			} else {
+				options.systemMessage = systemMessage
+			}
+		}
 
     if (lastContext != null) {
       if (apiModel === 'ChatGPTAPI')
-        options = { ...options, parentMessageId: lastContext.parentMessageId }
+        options.parentMessageId = lastContext.parentMessageId
       else
         options = { ...lastContext }
     }

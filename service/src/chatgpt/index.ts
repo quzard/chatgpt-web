@@ -131,6 +131,7 @@ async function chatReplyProcess(options: RequestOptions) {
 }
 
 async function fetchBalance() {
+	return "无法获取"
   const OPENAI_API_KEY = process.env.OPENAI_API_KEY
   const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
 

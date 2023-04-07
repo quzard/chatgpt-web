@@ -45,7 +45,7 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 
     const options: ChatGPTAPIOptions = {
       apiKey: process.env.OPENAI_API_KEY,
-	    completionParams: { model }, // temperature: 0.5,
+      completionParams: { model },
       debug: !disableDebug,
     }
 
@@ -92,7 +92,7 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 })()
 
 async function chatReplyProcess(options: RequestOptions) {
-  const { message, lastContext, process, systemMessage , temperature, top_p} = options
+  const { message, lastContext, process, systemMessage, temperature, top_p } = options
   try {
     let options: SendMessageOptions = { timeoutMs }
 
@@ -105,7 +105,7 @@ async function chatReplyProcess(options: RequestOptions) {
 		    'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
 		    'The code you produce adheres to the markdown code format.'
       }
-      options.completionParams = { model,  temperature, top_p}
+	    options.completionParams = { model, temperature, top_p }
     }
 
     if (lastContext != null) {

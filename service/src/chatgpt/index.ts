@@ -51,11 +51,11 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
       // if use 32k model
       if (model.toLowerCase().includes('32k')) {
         options.maxModelTokens = 32768
-        // options.maxResponseTokens = 8192
+        options.maxResponseTokens = 8192
       }
       else {
         options.maxModelTokens = 8192
-        // options.maxResponseTokens = 2048
+        options.maxResponseTokens = 2048
       }
     }
 

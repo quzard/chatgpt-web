@@ -40,7 +40,7 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
   if (isNotEmptyString(process.env.OPENAI_API_KEY)) {
     const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
 
-    const options: ChatGPTAPIOptions = {
+    let options: ChatGPTAPIOptions = {
       apiKey: process.env.OPENAI_API_KEY,
       completionParams: { model },
       debug: !disableDebug,
@@ -50,12 +50,14 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
     if (model.toLowerCase().includes('gpt-4')) {
       // if use 32k model
       if (model.toLowerCase().includes('32k')) {
-        options.maxModelTokens = 32768
-        options.maxResponseTokens = 8192
+	      options.completionParams.max_tokens = 32768
+        // options.maxModelTokens = 32768
+        // options.maxResponseTokens = 8192
       }
       else {
-        options.maxModelTokens = 8192
-        options.maxResponseTokens = 2048
+	      options.completionParams.max_tokens = 8192
+        // options.maxModelTokens = 8192
+        // options.maxResponseTokens = 2048
       }
     }
 

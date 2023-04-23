@@ -10,8 +10,8 @@ export interface SettingsState {
 
 export function defaultSetting(): SettingsState {
   return {
-    systemMessage: 'You are a useful assistant.',
-	  temperature: 0.5,
+    systemMessage: 'You are a useful assistant. Follow the user\'s instructions carefully. Respond using markdown.',
+    temperature: 0.8,
     top_p: 1,
   }
 }

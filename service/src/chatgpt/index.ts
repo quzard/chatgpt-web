@@ -90,13 +90,7 @@ async function chatReplyProcess(options: RequestOptions) {
     if (apiModel === 'ChatGPTAPI') {
       if (isNotEmptyString(systemMessage))
         options.systemMessage = systemMessage
-      else {
-	    options.systemMessage = 'You are an excellent chinese academic writing tool, you can rewrite text, expand it, ' +
-		    'and polish it to ensure that your writing is unique with a less than 5% similarity rate to other online texts. ' +
-		    'Additionally, you possess strong coding and academic skills, allowing you to write and understand code, as well as add comments to it. ' +
-		    'The code you produce adheres to the markdown code format.'
-      }
-	    options.completionParams = { model, temperature, top_p }
+      options.completionParams = { model, temperature, top_p }
     }
 
     if (lastContext != null) {

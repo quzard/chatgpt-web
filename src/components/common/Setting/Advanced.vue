@@ -10,6 +10,8 @@ const settingStore = useSettingStore()
 
 const ms = useMessage()
 
+const OPENAI_API_KEY = ref(settingStore.OPENAI_API_KEY ?? '')
+
 const systemMessage = ref(settingStore.systemMessage ?? '')
 
 const model = ref(settingStore.model ?? 'gpt-3.5-turbo')
@@ -61,6 +63,15 @@ function handleReset() {
           {{ $t('common.save') }}
         </NButton>
       </div>
+			<div class="flex items-center space-x-4">
+				<span class="flex-shrink-0 w-[120px]">{{ $t('setting.OPENAI_API_KEY') }}</span>
+				<div class="flex-1">
+					<NInput v-model:value="OPENAI_API_KEY" type="textarea" :autosize="{ minRows: 1, maxRows: 4 }" />
+				</div>
+				<NButton size="tiny" text type="primary" @click="updateSettings({ OPENAI_API_KEY })">
+					{{ $t('common.save') }}
+				</NButton>
+			</div>
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[120px]">{{ $t('setting.temperature') }} </span>
         <div class="flex-1">

@@ -61,6 +61,7 @@ export default {
     description: 'Описание',
     model: 'модель',
     role: 'Роль',
+	  OPENAI_API_KEY: 'key',
     temperature: 'Температура',
     top_p: 'Top_p',
     resetUserInfo: 'Сбросить информацию о пользователе',

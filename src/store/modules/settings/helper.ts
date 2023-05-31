@@ -4,6 +4,7 @@ const LOCAL_NAME = 'settingsStorage'
 
 export interface SettingsState {
   model: string
+  OPENAI_API_KEY: string
   systemMessage: string
   temperature: number
   top_p: number
@@ -12,6 +13,7 @@ export interface SettingsState {
 export function defaultSetting(): SettingsState {
   return {
     model: 'gpt-3.5-turbo',
+    OPENAI_API_KEY: '',
     systemMessage: 'You are a useful assistant. Follow the user\'s instructions carefully. Respond using markdown.',
     temperature: 0.8,
     top_p: 1,

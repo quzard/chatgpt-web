@@ -61,6 +61,7 @@ export default {
     description: '설명',
     model: '모델',
     role: '역할',
+    OPENAI_API_KEY: 'key',
     temperature: '온도',
     top_p: 'Top_p',
     resetUserInfo: '사용자 정보 초기화',

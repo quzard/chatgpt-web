@@ -39,6 +39,7 @@ export function fetchChatAPIProcess<T = any>(
     data = {
       ...data,
       model: settingStore.model,
+      OPENAI_API_KEY: settingStore.OPENAI_API_KEY,
       systemMessage: settingStore.systemMessage,
       temperature: settingStore.temperature,
       top_p: settingStore.top_p,

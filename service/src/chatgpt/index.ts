@@ -36,7 +36,7 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 
 const models = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL.split(',') : ['gpt-3.5-turbo']
 
-let chatGPTAPI: Record<string, ChatGPTAPI> = {};
+let chatGPTAPIOptions: Record<string,  ChatGPTAPIOptions> = {};
 
 (async () => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
@@ -68,7 +68,7 @@ let chatGPTAPI: Record<string, ChatGPTAPI> = {};
 			  options.apiBaseUrl = `${OPENAI_API_BASE_URL}/v1`
 
 		  setupProxy(options)
-		  chatGPTAPI[model] = new ChatGPTAPI({ ...options })
+		  chatGPTAPIOptions[model] = options
 	  }
 
     apiModel = 'ChatGPTAPI'
@@ -89,15 +89,14 @@ let chatGPTAPI: Record<string, ChatGPTAPI> = {};
 })()
 
 async function chatReplyProcess(options: RequestOptions) {
-  let { message, lastContext, process, model, systemMessage, temperature, top_p } = options
+  let { message, lastContext, process, model, systemMessage, OPENAI_API_KEY, temperature, top_p } = options
   try {
     let options: SendMessageOptions = { timeoutMs }
-
     if (apiModel === 'ChatGPTAPI') {
 			if (!isNotEmptyString(model)) {
 				model = 'gpt-3.5-turbo'
 			}
-			api = chatGPTAPI[model]
+			api = new ChatGPTAPI({ ...chatGPTAPIOptions[model], apiKey: OPENAI_API_KEY })
       if (isNotEmptyString(systemMessage))
         options.systemMessage = systemMessage
       options.completionParams = { model, temperature, top_p }

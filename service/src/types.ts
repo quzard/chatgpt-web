@@ -5,6 +5,7 @@ export interface RequestProps {
   options?: ChatContext
   model: string
   systemMessage: string
+	OPENAI_API_KEY: string
   temperature?: number
   top_p?: number
 }

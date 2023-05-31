@@ -9,7 +9,7 @@ import { sendResponse } from '../utils'
 import { isNotEmptyString } from '../utils/is'
 import type { ApiModel, ChatContext, ChatGPTUnofficialProxyAPIOptions, ModelConfig } from '../types'
 import type { RequestOptions, SetProxyOptions, UsageResponse } from './types'
-import Keyv from 'keyv'
+const Keyv = require('keyv');
 
 const { HttpsProxyAgent } = httpsProxyAgent
 

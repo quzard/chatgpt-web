@@ -4,23 +4,6 @@
 
 更多功能：[chatgpt-web-plus](https://github.com/Chanzhaoyu/chatgpt-web-plus)
 
-### Modifications to the original project:
-* add system message support for each chat
-* add local usingContext button instead of a global one
-
-### What it enables
-* set up different contexts/roles for each chat by setting system messages individually
-* enable one-shot conversations by turning off the usingContext button (dictionaries, translators, etc.)
-
-### Branches
-* `main`: sync with the original main, no modification
-* `feature`: mainstream with all modifications
-* `<other names>`: independent features
-
-# Original README.md below
-
----
-
 ![cover](./docs/c1.png)
 ![cover2](./docs/c2.png)
 

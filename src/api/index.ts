@@ -24,7 +24,7 @@ export function fetchChatConfig<T = any>(api_key: string) {
 export function fetchChatAPIProcess<T = any>(
   params: {
     prompt: string
-    options: { conversationId?: string; parentMessageId?: string; systemMessage?: string }
+    options?: { conversationId?: string; parentMessageId?: string }
     conversationConfig: Chat.ConversationConfig
     signal?: GenericAbortSignal
     onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void },

@@ -98,6 +98,7 @@ export default {
     defaultRole: '默认角色',
     chatRole: '会话角色',
     reset: '已重置到默认角色',
+    success: '已重置到默认角色',
     inputPrompt: '此处留白恢复到默认角色',
   },
 }

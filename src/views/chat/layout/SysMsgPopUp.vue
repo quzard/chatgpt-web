@@ -64,7 +64,7 @@ function updateChatConfig() {
 
 function resetChatConfig() {
   settingStore.restoreDefaultChatConfig(+props.uuid)
-  ms.success(t('common.success'))
+  ms.success(t('systemMessage.success'))
   show.value = false
 }
 

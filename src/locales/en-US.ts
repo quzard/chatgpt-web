@@ -98,6 +98,7 @@ export default {
     defaultRole: 'Default Role',
     chatRole: 'Chat Role',
     reset: 'Reset to default role',
+	  success: 'Reset to default role',
     inputPrompt: 'Leave empty to use the default role',
   },
 }

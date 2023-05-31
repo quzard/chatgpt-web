@@ -10,9 +10,10 @@ import { useScroll } from './hooks/useScroll'
 import { useChat } from './hooks/useChat'
 import { useUsingContext } from './hooks/useUsingContext'
 import HeaderComponent from './components/Header/index.vue'
+import SysMsgPopUp from './layout/SysMsgPopUp.vue'
 import { HoverButton, SvgIcon } from '@/components/common'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import { useChatStore, usePromptStore } from '@/store'
+import { useChatStore, usePromptStore, useSettingStore } from '@/store'
 import { fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
 
@@ -25,6 +26,7 @@ const dialog = useDialog()
 const ms = useMessage()
 
 const chatStore = useChatStore()
+const settingStore = useSettingStore()
 
 const { isMobile } = useBasicLayout()
 const { addChat, updateChat, updateChatSome, getChatByUuidAndIndex } = useChat()
@@ -38,6 +40,7 @@ const conversationList = computed(() => dataSources.value.filter(item => (!item.
 
 const prompt = ref<string>('')
 const loading = ref<boolean>(false)
+const showSysMsgPopUp = ref<boolean>(false)
 const inputRef = ref<Ref | null>(null)
 
 // 添加PromptStore
@@ -89,6 +92,9 @@ async function onConversation() {
   if (lastContext && usingContext.value)
     options = { ...lastContext }
 
+  // always add system message to options: either default or customized
+  const conversationConfig: Chat.ConversationConfig = settingStore.currentChatConfig(+uuid)
+
   addChat(
     +uuid,
     {
@@ -109,6 +115,7 @@ async function onConversation() {
       await fetchChatAPIProcess<Chat.ConversationResponse>({
         prompt: message,
         options,
+        conversationConfig,
         signal: controller.signal,
         onDownloadProgress: ({ event }) => {
           const xhr = event.target
@@ -218,6 +225,9 @@ async function onRegenerate(index: number) {
   if (requestOptions.options)
     options = { ...requestOptions.options }
 
+  // always add system message to options: either default or customized
+  const conversationConfig: Chat.ConversationConfig = settingStore.currentChatConfig(+uuid)
+
   loading.value = true
 
   updateChat(
@@ -240,6 +250,7 @@ async function onRegenerate(index: number) {
       await fetchChatAPIProcess<Chat.ConversationResponse>({
         prompt: message,
         options,
+        conversationConfig,
         signal: controller.signal,
         onDownloadProgress: ({ event }) => {
           const xhr = event.target
@@ -312,6 +323,10 @@ async function onRegenerate(index: number) {
   finally {
     loading.value = false
   }
+}
+
+function handleSetSysMsg() {
+  showSysMsgPopUp.value = true
 }
 
 function handleExport() {
@@ -528,6 +543,11 @@ onUnmounted(() => {
               <SvgIcon icon="ri:chat-history-line" />
             </span>
           </HoverButton>
+          <HoverButton @click="handleSetSysMsg">
+            <span class="text-xl text-[#4f555e] dark:text-white">
+              <SvgIcon icon="ri:command-line" />
+            </span>
+          </HoverButton>
           <NAutoComplete v-model:value="prompt" :options="searchOptions" :render-label="renderOption">
             <template #default="{ handleInput, handleBlur, handleFocus }">
               <NInput
@@ -554,4 +574,5 @@ onUnmounted(() => {
       </div>
     </footer>
   </div>
+  <SysMsgPopUp v-model:visible="showSysMsgPopUp" v-model:uuid="uuid" />
 </template>

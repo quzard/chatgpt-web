@@ -32,6 +32,9 @@ dependencies:
   isomorphic-fetch:
     specifier: ^3.0.0
     version: 3.0.0
+  keyv:
+    specifier: ^4.5.2
+    version: 4.5.2
   node-fetch:
     specifier: ^3.3.0
     version: 3.3.0

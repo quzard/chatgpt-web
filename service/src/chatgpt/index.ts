@@ -39,7 +39,7 @@ const models = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPEN
 
 let chatGPTAPIOptions: Record<string,  ChatGPTAPIOptions> = {};
 
-const messageStore = new Keyv('sqlite:database.db');
+const messageStore = new Keyv('sqlite://data/database.sqlite');
 
 
 (async () => {

@@ -30,4 +30,4 @@ coverage
 
 # Environment variables files
 /service/.env
-/service/sqlite:database.db
+/service/data/database.sqlite

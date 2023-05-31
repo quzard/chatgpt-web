@@ -8,6 +8,8 @@ interface systemMessagePerChat {
 }
 
 interface OldSettingsState {
+  model: string
+  OPENAI_API_KEY: string
   systemMessage: string
   systemMessageAllChat?: systemMessagePerChat[]
   temperature?: number
@@ -28,12 +30,16 @@ function migrateSettings(oldSettings: OldSettingsState): SettingsState {
   newSettings.systemMessage = oldSettings.systemMessage
   newSettings.temperature = oldSettings.temperature || newSettings.temperature
   newSettings.top_p = oldSettings.top_p || newSettings.top_p
-  oldSettings.systemMessageAllChat?.forEach((item) => {
+	newSettings.model = oldSettings.model || newSettings.model
+	newSettings.OPENAI_API_KEY = oldSettings.OPENAI_API_KEY || newSettings.OPENAI_API_KEY
+	oldSettings.systemMessageAllChat?.forEach((item) => {
     // assign systemMessagePerChat to apiSettingsPerChat
     newSettings.perChatSettings.push(
       {
         uuid: item.uuid,
         settings: {
+	        model: newSettings.model,
+	        OPENAI_API_KEY: newSettings.OPENAI_API_KEY,
           systemMessage: item.message,
           temperature: newSettings.temperature,
           top_p: newSettings.top_p,

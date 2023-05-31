@@ -24,6 +24,7 @@
     "common:cleanup": "rimraf node_modules && rimraf pnpm-lock.yaml"
   },
   "dependencies": {
+    "@keyv/sqlite": "^3.6.5",
     "axios": "^1.3.4",
     "chatgpt": "^5.2.5",
     "dotenv": "^16.0.3",

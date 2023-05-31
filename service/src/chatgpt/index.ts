@@ -9,6 +9,7 @@ import { sendResponse } from '../utils'
 import { isNotEmptyString } from '../utils/is'
 import type { ApiModel, ChatContext, ChatGPTUnofficialProxyAPIOptions, ModelConfig } from '../types'
 import type { RequestOptions, SetProxyOptions, UsageResponse } from './types'
+import Keyv from 'keyv'
 
 const { HttpsProxyAgent } = httpsProxyAgent
 
@@ -37,6 +38,9 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 const models = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL.split(',') : ['gpt-3.5-turbo']
 
 let chatGPTAPIOptions: Record<string,  ChatGPTAPIOptions> = {};
+
+const messageStore = new Keyv('sqlite:database.db');
+
 
 (async () => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
@@ -96,7 +100,7 @@ async function chatReplyProcess(options: RequestOptions) {
 			if (!isNotEmptyString(model)) {
 				model = 'gpt-3.5-turbo'
 			}
-			api = new ChatGPTAPI({ ...chatGPTAPIOptions[model], apiKey: OPENAI_API_KEY })
+			api = new ChatGPTAPI({ ...chatGPTAPIOptions[model], apiKey: OPENAI_API_KEY, messageStore:messageStore })
       if (isNotEmptyString(systemMessage))
         options.systemMessage = systemMessage
       options.completionParams = { model, temperature, top_p }

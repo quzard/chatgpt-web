@@ -24,6 +24,8 @@ declare namespace Chat {
 	}
 
 	interface ConversationConfig {
+		model: string,
+		OPENAI_API_KEY: string,
 		systemMessage: string
 		temperature: number
 		top_p: number

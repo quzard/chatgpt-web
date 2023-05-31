@@ -12,7 +12,8 @@ export const useSettingStore = defineStore('setting-store', {
         // if no search result
         if (!searchResult) {
           return {
-            systemMessage: state.systemMessage,
+	          model: state.model,
+	          OPENAI_API_KEY: state.OPENAI_API_KEY,
             temperature: state.temperature,
             top_p: state.top_p,
           }

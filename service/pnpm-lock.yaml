@@ -1,12 +1,16 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   axios:
     specifier: ^1.3.4
     version: 1.3.4
   chatgpt:
-    specifier: ^5.1.2
-    version: 5.1.2
+    specifier: ^5.2.5
+    version: 5.2.5
   dotenv:
     specifier: ^16.0.3
     version: 16.0.3
@@ -170,10 +174,6 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       chalk: 2.4.2
       js-tokens: 4.0.0
-
-  /@dqbd/tiktoken@1.0.2:
-    resolution: {integrity: sha512-AjGTBRWsMoVmVeN55NLyupyM8TNamOUBl6tj5t/leLDVup3CFGO9tVagNL1jf3GyZLkWZSTmYVbPQ/M2LEcNzw==}
-    dev: false
 
   /@esbuild-kit/cjs-loader@2.4.2:
     resolution: {integrity: sha512-BDXFbYOJzT/NBEtp71cvsrGPwGAMGRB/349rwKuoxNSiKjPraNNnlK6MIIabViCjqZugu6j+xeMDlEkWdHHJSg==}
@@ -817,6 +817,10 @@ packages:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
     dev: true
 
+  /base64-js@1.5.1:
+    resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+    dev: false
+
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
@@ -939,15 +943,15 @@ packages:
     resolution: {integrity: sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==}
     dev: true
 
-  /chatgpt@5.1.2:
-    resolution: {integrity: sha512-b/NnDQHDOpouK+gmhUCKcKuvnKEh+DotwXlP6Qgw1mqmkcfVl9Wt3/3noT8jbGJpMEpFOfzexXn5Rehpea1N0w==}
+  /chatgpt@5.2.5:
+    resolution: {integrity: sha512-DNhBzPb2zTDjJADY44XfngMvsvrvHRq1md2VPXLmnKeP1UCeA1B6pV3s9ZRwlcgjVT0RyM77fRj1xj5V11Vctg==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
-      '@dqbd/tiktoken': 1.0.2
       cac: 6.7.14
       conf: 11.0.1
-      eventsource-parser: 0.0.5
+      eventsource-parser: 1.0.0
+      js-tiktoken: 1.0.6
       keyv: 4.5.2
       p-timeout: 6.1.1
       quick-lru: 6.1.1
@@ -1739,9 +1743,9 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /eventsource-parser@0.0.5:
-    resolution: {integrity: sha512-BAq82bC3ZW9fPYYZlofXBOAfbpmDzXIOsj+GOehQwgTUYsQZ6HtHs6zuRtge7Ph8OhS6lNH1kJF8q9dj17RcmA==}
-    engines: {node: '>=12'}
+  /eventsource-parser@1.0.0:
+    resolution: {integrity: sha512-9jgfSCa3dmEme2ES3mPByGXfgZ87VbP97tng1G2nWwWx6bV2nYxm2AWCrbQjXToSe+yYlqaZNtxffR9IeQr95g==}
+    engines: {node: '>=14.18'}
     dev: false
 
   /execa@5.1.1:
@@ -2409,6 +2413,12 @@ packages:
   /js-sdsl@4.3.0:
     resolution: {integrity: sha512-mifzlm2+5nZ+lEcLJMoBK0/IH/bDg8XnJfd/Wq6IP+xoCjLZsTOnV2QpxlVbX9bMnkl5PdEjNtBJ9Cj1NjifhQ==}
     dev: true
+
+  /js-tiktoken@1.0.6:
+    resolution: {integrity: sha512-lxHntEupgjWvSh37WxpAW4XN6UBXBtFJOpZZq5HN5oNjDfN7L/iJhHOKjyL/DFtuYXUwn5jfTciLtOWpgQmHjQ==}
+    dependencies:
+      base64-js: 1.5.1
+    dev: false
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}

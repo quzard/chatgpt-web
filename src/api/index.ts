@@ -14,9 +14,10 @@ export function fetchChatAPI<T = any>(
   })
 }
 
-export function fetchChatConfig<T = any>() {
+export function fetchChatConfig<T = any>(api_key: string) {
   return post<T>({
     url: '/config',
+	  data: { api_key },
   })
 }
 

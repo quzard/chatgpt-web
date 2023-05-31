@@ -74,7 +74,7 @@ export default {
     socks: 'Socks',
     httpsProxy: 'HTTPS Proxy',
     balance: 'API Balance',
-    monthlyUsage: 'Monthly Usage',
+    monthlyUsage: 'Remaining token amount',
   },
   store: {
     siderButton: 'Prompt Store',

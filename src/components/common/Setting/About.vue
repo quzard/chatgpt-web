@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { NSpin } from 'naive-ui'
 import { fetchChatConfig } from '@/api'
 import pkg from '@/../package.json'
-import { useAuthStore } from '@/store'
+import {useAuthStore, useSettingStore} from '@/store'
 
 interface ConfigState {
   timeoutMs?: number
@@ -22,10 +22,13 @@ const config = ref<ConfigState>()
 
 const isChatGPTAPI = computed<boolean>(() => !!authStore.isChatGPTAPI)
 
+const settingStore = useSettingStore()
+const OPENAI_API_KEY = ref(settingStore.OPENAI_API_KEY ?? '')
+
 async function fetchConfig() {
   try {
     loading.value = true
-    const { data } = await fetchChatConfig<ConfigState>()
+    const { data } = await fetchChatConfig<ConfigState>(OPENAI_API_KEY.value)
     config.value = data
   }
   finally {

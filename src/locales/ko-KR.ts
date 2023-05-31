@@ -74,7 +74,7 @@ export default {
     socks: 'Socks',
     httpsProxy: 'HTTPS 프록시',
     balance: 'API 잔액',
-    monthlyUsage: '월 사용량',
+    monthlyUsage: '잔여 토큰 수',
   },
   store: {
     siderButton: '프롬프트 저장소',

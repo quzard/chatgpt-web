@@ -127,8 +127,8 @@ async function chatReplyProcess(options: RequestOptions) {
   }
 }
 
-async function fetchUsage() {
-  const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+async function fetchUsage(api_key:string) {
+  const OPENAI_API_KEY = api_key
   const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
 
   if (!isNotEmptyString(OPENAI_API_KEY))
@@ -141,7 +141,7 @@ async function fetchUsage() {
   const [startDate, endDate] = formatDate()
 
   // 每月使用量
-  const urlUsage = `${API_BASE_URL}/v1/dashboard/billing/usage?start_date=${startDate}&end_date=${endDate}`
+  const urlUsage = `${API_BASE_URL}/v1/dashboard/billing/subscription`
 
   const headers = {
     'Authorization': `Bearer ${OPENAI_API_KEY}`,
@@ -158,8 +158,8 @@ async function fetchUsage() {
     if (!useResponse.ok)
       throw new Error('获取使用量失败')
     const usageData = await useResponse.json() as UsageResponse
-    const usage = Math.round(usageData.total_usage) / 100
-    return Promise.resolve(usage ? `$${usage}` : '-')
+    const usage = Math.round(usageData.hard_limit_usd) / 1000
+	  return Promise.resolve(usage ? `${usage}k` : '-')
   }
   catch (error) {
     global.console.log(error)
@@ -177,8 +177,8 @@ function formatDate(): string[] {
   return [formattedFirstDay, formattedLastDay]
 }
 
-async function chatConfig() {
-  const usage = await fetchUsage()
+async function chatConfig(api_key:string) {
+  const usage = await fetchUsage(api_key)
   const reverseProxy = process.env.API_REVERSE_PROXY ?? '-'
   const httpsProxy = (process.env.HTTPS_PROXY || process.env.ALL_PROXY) ?? '-'
   const socksProxy = (process.env.SOCKS_PROXY_HOST && process.env.SOCKS_PROXY_PORT)

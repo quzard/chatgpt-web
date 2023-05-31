@@ -74,7 +74,7 @@ export default {
     socks: 'Socks',
     httpsProxy: 'HTTPS-прокси',
     balance: 'Баланс API',
-    monthlyUsage: 'Ежемесячное использование',
+    monthlyUsage: 'Оставшееся количество токенов',
   },
   store: {
     siderButton: 'Хранилище подсказок',

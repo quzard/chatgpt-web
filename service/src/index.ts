@@ -49,7 +49,10 @@ router.post('/chat-process', [auth, limiter], async (req, res) => {
 
 router.post('/config', auth, async (req, res) => {
   try {
-    const response = await chatConfig()
+	  const { api_key } = req.body as { api_key: string }
+	  if (!api_key)
+		  throw new Error('key为空')
+	  const response = await chatConfig(api_key)
     res.send(response)
   }
   catch (error) {

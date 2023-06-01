@@ -211,13 +211,14 @@ async function onConversation() {
 }
 
 async function onEdit(text: string, index: number) {
+  if (loading.value)
+    return
+
   dataSources.value.splice(index + 1)
   // eslint-disable-next-line no-console
   console.log('onEdit', text, index, dataSources.value[index])
   let message = text
 
-  if (loading.value)
-    return
 
   if (!message || message.trim() === '')
     return
@@ -233,6 +234,8 @@ async function onEdit(text: string, index: number) {
   if (lastContext && usingContext.value)
     options = { ...lastContext }
 
+  // always add system message to options: either default or customized
+  const conversationConfig: Chat.ConversationConfig = settingStore.currentChatConfig(+uuid)
   addChat(
     +uuid,
     {
@@ -253,6 +256,7 @@ async function onEdit(text: string, index: number) {
       await fetchChatAPIProcess<Chat.ConversationResponse>({
         prompt: message,
         options,
+        conversationConfig,
         signal: controller.signal,
         onDownloadProgress: ({ event }) => {
           const xhr = event.target

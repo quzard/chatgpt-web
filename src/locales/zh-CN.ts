@@ -32,6 +32,7 @@ export default {
     newChatButton: '新建聊天',
     placeholder: '来说点什么吧...（Shift + Enter = 换行，"/" 触发提示词）',
     placeholderMobile: '来说点什么...',
+    edit: '编辑',
     copy: '复制',
     copied: '复制成功',
     copyCode: '复制代码',
@@ -50,6 +51,8 @@ export default {
     clearHistoryConfirm: '确定清空聊天记录?',
     preview: '预览',
     showRawText: '显示原文',
+	  saveAndSubmit: '保存并提交',
+	  cancel: '取消',
   },
   setting: {
     setting: '设置',

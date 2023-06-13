@@ -51,8 +51,8 @@ export default {
     clearHistoryConfirm: '确定清空聊天记录?',
     preview: '预览',
     showRawText: '显示原文',
-	  saveAndSubmit: '保存并提交',
-	  cancel: '取消',
+    saveAndSubmit: '保存并提交',
+    cancel: '取消',
   },
   setting: {
     setting: '设置',

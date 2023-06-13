@@ -354,6 +354,8 @@ async function onRegenerate(index: number) {
   if (loading.value)
     return
 
+  dataSources.value.splice(index + 1)
+
   controller = new AbortController()
 
   const { requestOptions } = dataSources.value[index]

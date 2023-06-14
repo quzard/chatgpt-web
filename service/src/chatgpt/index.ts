@@ -66,6 +66,12 @@ const messageStore = new Keyv('sqlite://data/database.sqlite');
 				  options.maxModelTokens = 8192
 				  options.maxResponseTokens = 2048
 			  }
+		  } else if (model.toLowerCase().includes('gpt-3.5-turbo-16k')) {
+			  options.maxModelTokens = 16384
+			  options.maxResponseTokens = 4096
+		  } else {
+			  options.maxModelTokens = 4096
+			  options.maxResponseTokens = 1024
 		  }
 
 		  if (isNotEmptyString(OPENAI_API_BASE_URL))

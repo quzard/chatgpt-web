@@ -54,7 +54,7 @@ function migrateSettings(oldSettings: OldSettingsState): SettingsState {
 
 export function defaultSetting(): SettingsState {
   return {
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-3.5-turbo-0613',
     OPENAI_API_KEY: '',
     systemMessage: 'You are a useful assistant. Follow the user\'s instructions carefully. Respond using markdown.',
     temperature: 0.8,

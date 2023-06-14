@@ -28,14 +28,14 @@ const timeoutMs: number = !isNaN(+process.env.TIMEOUT_MS) ? +process.env.TIMEOUT
 const disableDebug: boolean = process.env.OPENAI_API_DISABLE_DEBUG === 'true'
 
 let apiModel: ApiModel
-const model = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL : 'gpt-3.5-turbo'
+const model = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL : 'gpt-3.5-turbo-0613'
 
 if (!isNotEmptyString(process.env.OPENAI_API_KEY) && !isNotEmptyString(process.env.OPENAI_ACCESS_TOKEN))
   throw new Error('Missing OPENAI_API_KEY or OPENAI_ACCESS_TOKEN environment variable')
 
 let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 
-const models = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL.split(',') : ['gpt-3.5-turbo']
+const models = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL.split(',') : ['gpt-3.5-turbo-0613']
 
 let chatGPTAPIOptions: Record<string,  ChatGPTAPIOptions> = {};
 
@@ -104,7 +104,7 @@ async function chatReplyProcess(options: RequestOptions) {
     let options: SendMessageOptions = { timeoutMs }
     if (apiModel === 'ChatGPTAPI') {
 			if (!isNotEmptyString(model)) {
-				model = 'gpt-3.5-turbo'
+				model = 'gpt-3.5-turbo-0613'
 			}
 			api = new ChatGPTAPI({ ...chatGPTAPIOptions[model], apiKey: OPENAI_API_KEY, messageStore:messageStore })
       if (isNotEmptyString(systemMessage))

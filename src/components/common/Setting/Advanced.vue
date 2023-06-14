@@ -14,7 +14,7 @@ const OPENAI_API_KEY = ref(settingStore.OPENAI_API_KEY ?? '')
 
 const systemMessage = ref(settingStore.systemMessage ?? '')
 
-const model = ref(settingStore.model ?? 'gpt-3.5-turbo')
+const model = ref(settingStore.model ?? 'gpt-3.5-turbo-0613')
 
 const temperature = ref(settingStore.temperature ?? 0.5)
 
@@ -25,8 +25,8 @@ const ALL_MODELS = isNotEmptyString(import.meta.env.VITE_OPENAI_API_MODEL) ? imp
 	value: name,
 })) : [
 	{
-		label: "gpt-3.5-turbo",
-		value: "gpt-3.5-turbo",
+		label: "gpt-3.5-turbo-0613",
+		value: "gpt-3.5-turbo-0613",
 	},
 ]
 

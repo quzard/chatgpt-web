@@ -105,6 +105,9 @@ async function chatReplyProcess(options: RequestOptions) {
     if (apiModel === 'ChatGPTAPI') {
 			if (!isNotEmptyString(model)) {
 				model = 'gpt-3.5-turbo-0613'
+			} else if (model === 'gpt-3.5-turbo' || model === 'gpt-3.5-turbo-0301') {
+				// 强制使用gpt-3.5-turbo-16k
+				model = 'gpt-3.5-turbo-16k-0613'
 			}
 			api = new ChatGPTAPI({ ...chatGPTAPIOptions[model], apiKey: OPENAI_API_KEY, messageStore:messageStore })
       if (isNotEmptyString(systemMessage))

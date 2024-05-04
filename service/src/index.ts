@@ -34,7 +34,7 @@ router.post('/chat-process', [auth, limiter], async (req, res) => {
       },
       model,
       systemMessage,
-	    OPENAI_API_KEY,
+      OPENAI_API_KEY,
       temperature,
       top_p,
     })
@@ -49,10 +49,10 @@ router.post('/chat-process', [auth, limiter], async (req, res) => {
 
 router.post('/config', auth, async (req, res) => {
   try {
-	  const { api_key } = req.body as { api_key: string }
-	  if (!api_key)
-		  throw new Error('key为空')
-	  const response = await chatConfig(api_key)
+    const { api_key } = req.body as { api_key: string }
+    if (!api_key)
+      throw new Error('key为空')
+    const response = await chatConfig(api_key)
     res.send(response)
   }
   catch (error) {

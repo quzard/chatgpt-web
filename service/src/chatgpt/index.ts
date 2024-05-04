@@ -5,11 +5,11 @@ import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt'
 import { SocksProxyAgent } from 'socks-proxy-agent'
 import httpsProxyAgent from 'https-proxy-agent'
 import fetch from 'node-fetch'
+import Keyv from 'keyv'
 import { sendResponse } from '../utils'
 import { isNotEmptyString } from '../utils/is'
 import type { ApiModel, ChatContext, ChatGPTUnofficialProxyAPIOptions, ModelConfig } from '../types'
 import type { RequestOptions, SetProxyOptions, UsageResponse } from './types'
-import Keyv from 'keyv'
 
 const { HttpsProxyAgent } = httpsProxyAgent
 
@@ -28,19 +28,18 @@ const timeoutMs: number = !isNaN(+process.env.TIMEOUT_MS) ? +process.env.TIMEOUT
 const disableDebug: boolean = process.env.OPENAI_API_DISABLE_DEBUG === 'true'
 
 let apiModel: ApiModel
-const model = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL : 'gpt-3.5-turbo-0613'
+const model = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL : 'gpt-3.5-turbo'
 
 if (!isNotEmptyString(process.env.OPENAI_API_KEY) && !isNotEmptyString(process.env.OPENAI_ACCESS_TOKEN))
   throw new Error('Missing OPENAI_API_KEY or OPENAI_ACCESS_TOKEN environment variable')
 
 let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 
-const models = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL.split(',') : ['gpt-3.5-turbo-0613']
+const models = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL.split(',') : ['gpt-3.5-turbo']
 
-let chatGPTAPIOptions: Record<string,  ChatGPTAPIOptions> = {};
+const chatGPTAPIOptions: Record<string, ChatGPTAPIOptions> = {}
 
 const messageStore = new Keyv('sqlite://data/database.sqlite');
-
 
 (async () => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
@@ -48,25 +47,25 @@ const messageStore = new Keyv('sqlite://data/database.sqlite');
   if (isNotEmptyString(process.env.OPENAI_API_KEY)) {
     const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
 
-	  for (const model of models) {
-		  const options: ChatGPTAPIOptions = {
-			  apiKey: process.env.OPENAI_API_KEY,
-			  completionParams: { model },
-			  debug: !disableDebug,
-		  }
+    for (const model of models) {
+      const options: ChatGPTAPIOptions = {
+        apiKey: process.env.OPENAI_API_KEY,
+        completionParams: { model },
+        debug: !disableDebug,
+      }
 
-			// increase max token limit if use gpt-4
-			if (model.toLowerCase().includes('gpt-4')) {
-				// if use 32k model
-				if (model.toLowerCase().includes('32k')) {
-					options.maxModelTokens = 32768
-					options.maxResponseTokens = 8192
-				}
-				// if use GPT-4 Turbo
-				else if (/-preview|-turbo/.test(model.toLowerCase())) {
-					options.maxModelTokens = 128000
-					options.maxResponseTokens = 4096
-				}
+      // increase max token limit if use gpt-4
+      if (model.toLowerCase().includes('gpt-4')) {
+        // if use 32k model
+        if (model.toLowerCase().includes('32k')) {
+          options.maxModelTokens = 32768
+          options.maxResponseTokens = 8192
+        }
+        // if use GPT-4 Turbo
+        else if (/-preview|-turbo/.test(model.toLowerCase())) {
+          options.maxModelTokens = 128000
+          options.maxResponseTokens = 4096
+        }
         else {
           options.maxModelTokens = 8192
           options.maxResponseTokens = 2048
@@ -79,17 +78,17 @@ const messageStore = new Keyv('sqlite://data/database.sqlite');
         }
       }
 
-    if (isNotEmptyString(OPENAI_API_BASE_URL)) {
-      // if find /v1 in OPENAI_API_BASE_URL then use it
-      if (OPENAI_API_BASE_URL.includes('/v1'))
-        options.apiBaseUrl = `${OPENAI_API_BASE_URL}`
-      else
-        options.apiBaseUrl = `${OPENAI_API_BASE_URL}/v1`
-    }
+      if (isNotEmptyString(OPENAI_API_BASE_URL)) {
+        // if find /v1 in OPENAI_API_BASE_URL then use it
+        if (OPENAI_API_BASE_URL.includes('/v1'))
+          options.apiBaseUrl = `${OPENAI_API_BASE_URL}`
+        else
+          options.apiBaseUrl = `${OPENAI_API_BASE_URL}/v1`
+      }
 
-		  setupProxy(options)
-		  chatGPTAPIOptions[model] = options
-	  }
+      setupProxy(options)
+      chatGPTAPIOptions[model] = options
+    }
 
     apiModel = 'ChatGPTAPI'
   }
@@ -113,13 +112,14 @@ async function chatReplyProcess(options: RequestOptions) {
   try {
     let options: SendMessageOptions = { timeoutMs }
     if (apiModel === 'ChatGPTAPI') {
-			if (!isNotEmptyString(model)) {
-				model = 'gpt-3.5-turbo-16k-0613'
-			} else if (model === 'gpt-3.5-turbo' || model === 'gpt-3.5-turbo-0301' || model === 'gpt-3.5-turbo-0613') {
-				// 强制使用gpt-3.5-turbo-16k
-				model = 'gpt-3.5-turbo-16k-0613'
-			}
-			api = new ChatGPTAPI({ ...chatGPTAPIOptions[model], apiKey: OPENAI_API_KEY, messageStore:messageStore })
+      if (!isNotEmptyString(model)) {
+        model = 'gpt-3.5-turbo-16k'
+      }
+      else if (model.toLowerCase().includes('gpt-3.5')) {
+        // 强制使用gpt-3.5-turbo-16k
+        model = 'gpt-3.5-turbo-16k'
+      }
+      api = new ChatGPTAPI({ ...chatGPTAPIOptions[model], apiKey: OPENAI_API_KEY, messageStore })
       if (isNotEmptyString(systemMessage))
         options.systemMessage = systemMessage
       options.completionParams = { model, temperature, top_p }
@@ -150,7 +150,7 @@ async function chatReplyProcess(options: RequestOptions) {
   }
 }
 
-async function fetchUsage(api_key:string) {
+async function fetchUsage(api_key: string) {
   const OPENAI_API_KEY = api_key
   const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
 
@@ -181,8 +181,9 @@ async function fetchUsage(api_key:string) {
     if (!useResponse.ok)
       throw new Error('获取使用量失败')
     const usageData = await useResponse.json() as UsageResponse
+    console.log(usageData)
     const usage = Math.round(usageData.hard_limit_usd) / 1000
-	  return Promise.resolve(usage ? `${usage}k` : '-')
+    return Promise.resolve(usage ? `${usage}k` : '-')
   }
   catch (error) {
     global.console.log(error)
@@ -200,7 +201,7 @@ function formatDate(): string[] {
   return [formattedFirstDay, formattedLastDay]
 }
 
-async function chatConfig(api_key:string) {
+async function chatConfig(api_key: string) {
   const usage = await fetchUsage(api_key)
   const reverseProxy = process.env.API_REVERSE_PROXY ?? '-'
   const httpsProxy = (process.env.HTTPS_PROXY || process.env.ALL_PROXY) ?? '-'

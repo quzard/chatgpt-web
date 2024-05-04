@@ -37,8 +37,8 @@ const ALL_MODELS = isNotEmptyString(import.meta.env.VITE_OPENAI_API_MODEL) ? imp
 	value: name,
 })) : [
 	{
-		label: "gpt-3.5-turbo-0613",
-		value: "gpt-3.5-turbo-0613",
+		label: "gpt-3.5-turbo",
+		value: "gpt-3.5-turbo",
 	},
 ]
 

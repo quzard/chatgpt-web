@@ -91,9 +91,9 @@ function addCopyEvents() {
         const code = btn.parentElement?.nextElementSibling?.textContent
         if (code) {
           copyToClip(code).then(() => {
-            btn.textContent = '复制成功'
+            btn.textContent = t('chat.copied')
             setTimeout(() => {
-              btn.textContent = '复制代码'
+              btn.textContent = t('chat.copyCode')
             }, 1000)
           })
         }
@@ -152,7 +152,7 @@ onUnmounted(() => {
 					</template>
 					<template v-else>
             <div v-if="!inversion">
-              <div v-if="!asRawText" class="markdown-body" v-html="text" />
+							<div v-if="!asRawText" class="markdown-body" :class="{ 'markdown-body-generate': loading }" v-html="text" />
               <div v-else class="whitespace-pre-wrap" v-text="text" />
             </div>
             <div v-else class="whitespace-pre-wrap" v-text="text" />

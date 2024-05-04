@@ -15,13 +15,13 @@ interface Props {
   text?: string
   loading?: boolean
   asRawText?: boolean
-	edit?: boolean
+  edit?: boolean
 }
 
 interface Emit {
-	(e: 'update:text', text: string): void
-	(e: 'editSubmit', text: string): void
-	(ev: 'editCancel'): void
+  (e: 'update:text', text: string): void
+  (e: 'editSubmit', text: string): void
+  (ev: 'editCancel'): void
 }
 
 const props = defineProps<Props>()
@@ -106,7 +106,7 @@ function removeCopyEvents() {
   if (textRef.value) {
     const copyBtn = textRef.value.querySelectorAll('.code-block-header__copy')
     copyBtn.forEach((btn) => {
-      btn.removeEventListener('click', () => {})
+      btn.removeEventListener('click', () => { })
     })
   }
 }
@@ -130,35 +130,33 @@ onUnmounted(() => {
       <template v-if="loading">
         <span class="dark:text-white w-[4px] h-[20px] block animate-blink" />
       </template>
-			<template v-else>
-				<div ref="textRef" class="leading-relaxed break-words">
-					<template v-if="edit">
-						<div class="whitespace-pre-wrap">
-							<NInput
-								:value="text"
-								type="textarea"
-								:autosize="{ minRows: 5 }"
-								@input="handleInput"
-							/>
-							<div class="chat-edit-buttons">
-								<NButton type="primary" @click="handleSubmit">
-									{{ t('chat.saveAndSubmit') }}
-								</NButton>
-								<NButton @click="handleCancel">
-									{{ t('chat.cancel') }}
-								</NButton>
-							</div>
-						</div>
-					</template>
-					<template v-else>
+      <template v-else>
+        <div ref="textRef" class="leading-relaxed break-words">
+          <template v-if="edit">
+            <div class="whitespace-pre-wrap">
+              <NInput :value="text" type="textarea" :autosize="{ minRows: 5 }" @input="handleInput" />
+              <div class="chat-edit-buttons">
+                <NButton type="primary" @click="handleSubmit">
+                  {{ t('chat.saveAndSubmit') }}
+                </NButton>
+                <NButton @click="handleCancel">
+                  {{ t('chat.cancel') }}
+                </NButton>
+              </div>
+            </div>
+          </template>
+          <template v-else>
             <div v-if="!inversion">
-							<div v-if="!asRawText" class="markdown-body" :class="{ 'markdown-body-generate': loading }" v-html="text" />
+              <div
+                v-if="!asRawText" class="markdown-body" :class="{ 'markdown-body-generate': loading }"
+                v-html="text"
+              />
               <div v-else class="whitespace-pre-wrap" v-text="text" />
             </div>
             <div v-else class="whitespace-pre-wrap" v-text="text" />
-					</template>
-				</div>
-			</template>
+          </template>
+        </div>
+      </template>
     </div>
   </div>
 </template>

@@ -17,7 +17,7 @@ export function fetchChatAPI<T = any>(
 export function fetchChatConfig<T = any>(api_key: string) {
   return post<T>({
     url: '/config',
-	  data: { api_key },
+    data: { api_key },
   })
 }
 
@@ -27,7 +27,8 @@ export function fetchChatAPIProcess<T = any>(
     options?: { conversationId?: string; parentMessageId?: string }
     conversationConfig: Chat.ConversationConfig
     signal?: GenericAbortSignal
-    onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void },
+    onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void
+  },
 ) {
   const authStore = useAuthStore()
 

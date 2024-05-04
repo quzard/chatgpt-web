@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import {NSelect, NButton, NInput, NSlider, useMessage} from 'naive-ui'
+import { NButton, NInput, NSelect, NSlider, useMessage } from 'naive-ui'
+import { isNotEmptyString } from '../../../../service/src/utils/is'
 import { useSettingStore } from '@/store'
 import type { SettingsState } from '@/store/modules/settings/helper'
 import { t } from '@/locales'
-import {isNotEmptyString} from "../../../../service/src/utils/is";
 
 const settingStore = useSettingStore()
 
@@ -20,15 +20,17 @@ const temperature = ref(settingStore.temperature ?? 0.5)
 
 const top_p = ref(settingStore.top_p ?? 1)
 
-const ALL_MODELS = isNotEmptyString(import.meta.env.VITE_OPENAI_API_MODEL) ? import.meta.env.VITE_OPENAI_API_MODEL.split(',').map(name => ({
-	label: name,
-	value: name,
-})) : [
-	{
-		label: "gpt-3.5-turbo",
-		value: "gpt-3.5-turbo",
-	},
-]
+const ALL_MODELS = isNotEmptyString(import.meta.env.VITE_OPENAI_API_MODEL)
+  ? import.meta.env.VITE_OPENAI_API_MODEL.split(',').map(name => ({
+    label: name,
+    value: name,
+  }))
+  : [
+      {
+        label: 'gpt-3.5-turbo',
+        value: 'gpt-3.5-turbo',
+      },
+    ]
 
 function updateSettings(options: Partial<SettingsState>) {
   settingStore.updateSetting(options)
@@ -45,15 +47,15 @@ function handleReset() {
 <template>
   <div class="p-4 space-y-5 min-h-[200px]">
     <div class="space-y-6">
-			<div class="flex items-center space-x-4">
-				<span class="flex-shrink-0 w-[120px]">{{ $t('setting.model') }}</span>
-				<div class="flex-1">
-					<NSelect v-model:value="model" :options="ALL_MODELS" :autosize="{ minRows: 1, maxRows: 4 }" />
-				</div>
-				<NButton size="tiny" text type="primary" @click="updateSettings({ model })">
-					{{ $t('common.save') }}
-				</NButton>
-			</div>
+      <div class="flex items-center space-x-4">
+        <span class="flex-shrink-0 w-[120px]">{{ $t('setting.model') }}</span>
+        <div class="flex-1">
+          <NSelect v-model:value="model" :options="ALL_MODELS" :autosize="{ minRows: 1, maxRows: 4 }" />
+        </div>
+        <NButton size="tiny" text type="primary" @click="updateSettings({ model })">
+          {{ $t('common.save') }}
+        </NButton>
+      </div>
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[120px]">{{ $t('setting.role') }}</span>
         <div class="flex-1">
@@ -63,15 +65,15 @@ function handleReset() {
           {{ $t('common.save') }}
         </NButton>
       </div>
-			<div class="flex items-center space-x-4">
-				<span class="flex-shrink-0 w-[120px]">{{ $t('setting.OPENAI_API_KEY') }}</span>
-				<div class="flex-1">
-					<NInput v-model:value="OPENAI_API_KEY" type="textarea" :autosize="{ minRows: 1, maxRows: 4 }" />
-				</div>
-				<NButton size="tiny" text type="primary" @click="updateSettings({ OPENAI_API_KEY })">
-					{{ $t('common.save') }}
-				</NButton>
-			</div>
+      <div class="flex items-center space-x-4">
+        <span class="flex-shrink-0 w-[120px]">{{ $t('setting.OPENAI_API_KEY') }}</span>
+        <div class="flex-1">
+          <NInput v-model:value="OPENAI_API_KEY" type="textarea" :autosize="{ minRows: 1, maxRows: 4 }" />
+        </div>
+        <NButton size="tiny" text type="primary" @click="updateSettings({ OPENAI_API_KEY })">
+          {{ $t('common.save') }}
+        </NButton>
+      </div>
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[120px]">{{ $t('setting.temperature') }} </span>
         <div class="flex-1">

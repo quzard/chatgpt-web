@@ -114,21 +114,17 @@ async function handleCopy() {
 }
 
 function handleEditSubmit(text: string) {
-	emit('editSubmit', text)
-	edit.value = false
+  emit('editSubmit', text)
+  edit.value = false
 }
 
 function handleEditCancel() {
-	edit.value = false
+  edit.value = false
 }
 </script>
 
 <template>
-  <div
-    ref="messageRef"
-    class="flex w-full mb-6 overflow-hidden"
-    :class="[{ 'flex-row-reverse': inversion }]"
-  >
+  <div ref="messageRef" class="flex w-full mb-6 overflow-hidden" :class="[{ 'flex-row-reverse': inversion }]">
     <div
       class="flex items-center justify-center flex-shrink-0 h-8 overflow-hidden rounded-full basis-8"
       :class="[inversion ? 'ml-2' : 'mr-2']"
@@ -139,20 +135,10 @@ function handleEditCancel() {
       <p class="text-xs text-[#b4bbc4]" :class="[inversion ? 'text-right' : 'text-left']">
         {{ dateTime }}
       </p>
-      <div
-        class="flex items-end gap-1 mt-2"
-        :class="[inversion ? 'flex-row-reverse' : 'flex-row']"
-      >
+      <div class="flex items-end gap-1 mt-2" :class="[inversion ? 'flex-row-reverse' : 'flex-row']">
         <TextComponent
-          ref="textRef"
-          v-model:text="childValue"
-          :inversion="inversion"
-          :error="error"
-          :loading="loading"
-          :edit="edit"
-          @edit-cancel="handleEditCancel"
-          @edit-submit="handleEditSubmit"
-          :as-raw-text="asRawText"
+          ref="textRef" v-model:text="childValue" :inversion="inversion" :error="error" :loading="loading"
+          :edit="edit" :as-raw-text="asRawText" @edit-cancel="handleEditCancel" @edit-submit="handleEditSubmit"
         />
         <div class="flex flex-col">
           <button
@@ -163,10 +149,8 @@ function handleEditCancel() {
             <SvgIcon icon="ri:restart-line" />
           </button>
           <NDropdown
-            :trigger="isMobile ? 'click' : 'hover'"
-            :placement="!inversion ? 'right' : 'left'"
-            :options="options"
-            @select="handleSelect"
+            :trigger="isMobile ? 'click' : 'hover'" :placement="!inversion ? 'right' : 'left'"
+            :options="options" @select="handleSelect"
           >
             <button class="transition text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-200">
               <SvgIcon icon="ri:more-2-fill" />

@@ -48,11 +48,7 @@ onMounted(() => {
       </h2>
       <div class="p-2 space-y-2 rounded-md bg-neutral-100 dark:bg-neutral-700">
         <p>
-          <a
-            class="text-blue-600 dark:text-blue-500"
-            href="https://api.quzardhome.cn"
-            target="_blank"
-          >
+          <a class="text-blue-600 dark:text-blue-500" href="https://api.quzardhome.cn" target="_blank">
             https://api.quzardhome.cn
           </a>
         </p>

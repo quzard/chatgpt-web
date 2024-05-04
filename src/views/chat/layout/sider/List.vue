@@ -83,8 +83,7 @@ function isActive(uuid: number) {
             </span>
             <div class="relative flex-1 overflow-hidden break-all text-ellipsis whitespace-nowrap">
               <NInput
-                v-if="item.isEdit"
-                v-model:value="item.title" size="tiny"
+                v-if="item.isEdit" v-model:value="item.title" size="tiny"
                 @keypress="handleEnter(item, false, $event)"
               />
               <span v-else>{{ item.title }}</span>

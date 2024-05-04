@@ -8,7 +8,7 @@ export function defaultState(): Chat.ChatState {
   const uuid = 1002
   return {
     active: uuid,
-    usingContext: [{uuid:uuid, context:true}],
+    usingContext: [{ uuid, context: true }],
     history: [{ uuid, title: t('chat.newChatTitle'), isEdit: false }],
     chat: [{ uuid, data: [] }],
   }

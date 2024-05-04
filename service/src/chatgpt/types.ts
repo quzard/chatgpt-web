@@ -7,7 +7,7 @@ export interface RequestOptions {
   process?: (chat: ChatMessage) => void
   model?: string
   systemMessage?: string
-	OPENAI_API_KEY?: string
+  OPENAI_API_KEY?: string
   temperature?: number
   top_p?: number
 }
@@ -17,5 +17,5 @@ export interface SetProxyOptions {
 }
 
 export interface UsageResponse {
-	hard_limit_usd: number
+  hard_limit_usd: number
 }

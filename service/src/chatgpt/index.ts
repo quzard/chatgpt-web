@@ -181,7 +181,6 @@ async function fetchUsage(api_key: string) {
     if (!useResponse.ok)
       throw new Error('获取使用量失败')
     const usageData = await useResponse.json() as UsageResponse
-    console.log(usageData)
     const usage = Math.round(usageData.hard_limit_usd) / 1000
     return Promise.resolve(usage ? `${usage}k` : '-')
   }

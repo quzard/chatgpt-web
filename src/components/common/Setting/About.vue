@@ -1,9 +1,8 @@
 <script setup lang='ts'>
 import { computed, onMounted, ref } from 'vue'
 import { NSpin } from 'naive-ui'
-import pkg from '../../../../package.json'
 import { fetchChatConfig } from '@/api'
-import {useAuthStore, useSettingStore} from '@/store'
+import { useAuthStore, useSettingStore } from '@/store'
 
 interface ConfigState {
   timeoutMs?: number
@@ -45,17 +44,17 @@ onMounted(() => {
   <NSpin :show="loading">
     <div class="p-4 space-y-4">
       <h2 class="text-xl font-bold">
-				API Token管理地址
-			</h2>
+        API Token管理地址
+      </h2>
       <div class="p-2 space-y-2 rounded-md bg-neutral-100 dark:bg-neutral-700">
         <p>
-					<a
-						class="text-blue-600 dark:text-blue-500"
-						href="https://api.quzardhome.cn"
-						target="_blank"
-					>
-						https://api.quzardhome.cn
-					</a>
+          <a
+            class="text-blue-600 dark:text-blue-500"
+            href="https://api.quzardhome.cn"
+            target="_blank"
+          >
+            https://api.quzardhome.cn
+          </a>
         </p>
       </div>
       <p v-if="isChatGPTAPI">
